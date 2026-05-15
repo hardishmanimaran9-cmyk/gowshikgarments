@@ -36,7 +36,15 @@ export default function CustomerLogin() {
       }
     } catch (err) {
       console.error(err);
-      toast.error('Invalid email or password. Please try again.');
+      if (err.code === 'auth/weak-password') {
+        toast.error('Password should be at least 6 characters.');
+      } else if (err.code === 'auth/email-already-in-use') {
+        toast.error('An account already exists with this email.');
+      } else if (err.code === 'auth/invalid-credential') {
+        toast.error('Incorrect email or password. Please try again.');
+      } else {
+        toast.error('Authentication failed. Please check your details.');
+      }
     } finally {
       setLoading(false);
     }
@@ -82,6 +90,7 @@ export default function CustomerLogin() {
                 style={{ paddingLeft: 40 }}
                 placeholder="••••••••"
                 required
+                minLength={6}
                 value={form.password}
                 onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
               />
