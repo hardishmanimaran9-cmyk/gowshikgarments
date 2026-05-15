@@ -21,7 +21,7 @@ export default function Drawer({ open, onClose }) {
   const handleLogout = async () => {
     await signOut(auth);
     onClose();
-    navigate('/owner/login');
+    navigate('/login');
   };
 
   return (

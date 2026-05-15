@@ -1,15 +1,29 @@
 import { useTranslation } from 'react-i18next';
-import { Link, useLocation } from 'react-router-dom';
-import { IconShirt, IconShoppingCart } from '@tabler/icons-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { IconShirt, IconShoppingCart, IconLogout } from '@tabler/icons-react';
 import { useCart } from '../../store/cartStore';
+import { auth } from '../../firebase/config';
+import { signOut } from 'firebase/auth';
+import toast from 'react-hot-toast';
 
 export default function CustomerNav() {
   const { t, i18n } = useTranslation();
   const { cartCount } = useCart();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const toggleLang = () => {
     i18n.changeLanguage(i18n.language === 'en' ? 'ta' : 'en');
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      toast.success('Logged out successfully');
+      navigate('/login');
+    } catch (err) {
+      toast.error('Failed to log out');
+    }
   };
 
   return (
@@ -35,6 +49,9 @@ export default function CustomerNav() {
             <IconShoppingCart size={22} stroke={1.8} />
             {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
           </Link>
+          <button onClick={handleLogout} style={{ background: 'none', border: 'none', color: 'var(--navy)', cursor: 'pointer', display: 'flex', alignItems: 'center', marginLeft: '4px' }} title="Logout">
+            <IconLogout size={22} stroke={1.8} />
+          </button>
         </div>
       </div>
     </header>
