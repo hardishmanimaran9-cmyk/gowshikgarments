@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IconChevronDown, IconChevronUp } from '@tabler/icons-react';
+import { IconChevronDown, IconChevronUp, IconTrash } from '@tabler/icons-react';
 import StatusBadge from './StatusBadge';
 
-export default function EnquiryRow({ enquiry, onStatusChange }) {
+export default function EnquiryRow({ enquiry, onStatusChange, onDelete }) {
   const { t } = useTranslation();
   const [expanded, setExpanded] = useState(false);
 
@@ -26,7 +26,16 @@ export default function EnquiryRow({ enquiry, onStatusChange }) {
           <StatusBadge status={enquiry.status} onChange={(s) => onStatusChange(enquiry.id, s)} />
         </td>
         <td>
-          {expanded ? <IconChevronUp size={16} /> : <IconChevronDown size={16} />}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <button 
+              onClick={(e) => { e.stopPropagation(); onDelete(enquiry.id); }}
+              style={{ background: 'none', border: 'none', color: 'var(--error)', cursor: 'pointer', display: 'flex', padding: 4 }}
+              title={t('delete') || 'Delete'}
+            >
+              <IconTrash size={18} />
+            </button>
+            {expanded ? <IconChevronUp size={16} /> : <IconChevronDown size={16} />}
+          </div>
         </td>
       </tr>
       {expanded && (

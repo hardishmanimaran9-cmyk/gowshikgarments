@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { subscribeEnquiries, updateEnquiryStatus } from '../../firebase/enquiries';
+import { subscribeEnquiries, updateEnquiryStatus, deleteEnquiry } from '../../firebase/enquiries';
 import EnquiryRow from '../../components/owner/EnquiryRow';
 import LoadingSpinner from '../../components/shared/LoadingSpinner';
 import toast from 'react-hot-toast';
@@ -26,6 +26,16 @@ export default function Orders() {
       toast.success(t('status_updated'));
     } catch (err) {
       toast.error('Update failed');
+    }
+  };
+
+  const handleDelete = async (docId) => {
+    if (!window.confirm(t('confirm_delete') || 'Are you sure you want to delete this enquiry?')) return;
+    try {
+      await deleteEnquiry(docId);
+      toast.success(t('deleted_successfully') || 'Deleted successfully');
+    } catch (err) {
+      toast.error('Delete failed');
     }
   };
 
@@ -86,7 +96,7 @@ export default function Orders() {
             </thead>
             <tbody>
               {filtered.map(e => (
-                <EnquiryRow key={e.id} enquiry={e} onStatusChange={handleStatusChange} />
+                <EnquiryRow key={e.id} enquiry={e} onStatusChange={handleStatusChange} onDelete={handleDelete} />
               ))}
             </tbody>
           </table>

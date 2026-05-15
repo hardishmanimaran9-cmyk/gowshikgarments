@@ -7,7 +7,7 @@ import { IconShoppingCartOff } from '@tabler/icons-react';
 
 export default function Order() {
   const { t } = useTranslation();
-  const { items, cartCount, totalPcs } = useCart();
+  const { items, cartCount, totalPcs, clearCart } = useCart();
 
   if (items.length === 0) {
     return (
@@ -26,7 +26,18 @@ export default function Order() {
   return (
     <div className="page-content-customer">
       <div className="container" style={{ paddingTop: 20, maxWidth: 640 }}>
-        <h1 className="page-title">{t('your_order')}</h1>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 20 }}>
+          <h1 className="page-title" style={{ marginBottom: 0 }}>{t('your_order')}</h1>
+          <button 
+            onClick={clearCart}
+            style={{ 
+              background: 'none', border: 'none', color: 'var(--error)', 
+              cursor: 'pointer', fontWeight: 500, padding: '8px 0'
+            }}
+          >
+            {t('clear_all') || 'Clear All'}
+          </button>
+        </div>
         <div style={{ marginBottom: 20 }}>
           {items.map(item => <OrderItem key={item.productId} item={item} />)}
         </div>

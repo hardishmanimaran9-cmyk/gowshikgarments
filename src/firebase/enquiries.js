@@ -1,7 +1,7 @@
 import { db } from './config';
 import {
   collection, addDoc, doc, updateDoc, onSnapshot,
-  query, orderBy, serverTimestamp
+  query, orderBy, serverTimestamp, deleteDoc
 } from 'firebase/firestore';
 
 const COLLECTION = 'enquiries';
@@ -38,4 +38,8 @@ export function subscribeEnquiries(callback) {
 
 export async function updateEnquiryStatus(docId, status) {
   await updateDoc(doc(db, COLLECTION, docId), { status });
+}
+
+export async function deleteEnquiry(docId) {
+  await deleteDoc(doc(db, COLLECTION, docId));
 }
