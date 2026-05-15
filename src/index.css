@@ -420,10 +420,11 @@ textarea.input-field { resize: vertical; min-height: 80px; }
 }
 
 @media (max-width: 767px) {
+  .owner-layout { flex-direction: column; }
   .stats-row { grid-template-columns: repeat(2, 1fr); }
   .sidebar { display: none; }
   .owner-mobile-header { display: flex; }
-  .owner-main { margin-left: 0; padding: 16px; padding-top: 0; }
+  .owner-main { margin-left: 0; padding: 16px; padding-top: 16px; }
   .login-card { padding: 28px 20px; }
   .container { padding: 0 12px; }
   .enquiry-table { font-size: 0.8rem; }
