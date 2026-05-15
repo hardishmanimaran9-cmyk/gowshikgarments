@@ -28,7 +28,12 @@ export default function EnquiryRow({ enquiry, onStatusChange, onDelete }) {
         <td>
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <button 
-              onClick={(e) => { e.stopPropagation(); onDelete(enquiry.id); }}
+              type="button"
+              onClick={(e) => { 
+                e.preventDefault();
+                e.stopPropagation(); 
+                onDelete(enquiry.id); 
+              }}
               style={{ background: 'none', border: 'none', color: 'var(--error)', cursor: 'pointer', display: 'flex', padding: 4 }}
               title={t('delete') || 'Delete'}
             >
